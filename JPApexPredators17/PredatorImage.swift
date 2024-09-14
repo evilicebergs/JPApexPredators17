@@ -8,11 +8,47 @@
 import SwiftUI
 
 struct PredatorImage: View {
+    
+    var predator: ApexPredator
+    @State var direction = false
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
-    }
+            ZStack {
+                Image(predator.background)
+                    .resizable()
+                    .ignoresSafeArea()
+                
+                Image(predator.image)
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 350)
+                    .shadow(color: .black, radius: 7)
+                    .scaleEffect(x: direction ? 1 : -1)
+                    
+            }
+            .overlay(alignment: .bottomTrailing) {
+                Button {
+                    withAnimation {
+                        direction.toggle()
+                    }
+                } label: {
+                    Image(systemName: "lessthan")
+                        .scaleEffect(x: direction ? -1 : 1)
+                        .font(.largeTitle)
+                        .imageScale(.large)
+                        .padding()
+                        .background(.ultraThinMaterial)
+                        .clipShape(.rect(cornerRadius: 15))
+                        .shadow(radius: 7)
+                        .padding()
+                        
+                }
+
+            }
+        }
 }
 
 #Preview {
-    PredatorImage()
+    PredatorImage(predator: Predators().allApexPredators[10])
+        .preferredColorScheme(.dark)
 }
