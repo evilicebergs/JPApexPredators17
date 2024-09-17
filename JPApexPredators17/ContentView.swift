@@ -38,6 +38,7 @@ struct ContentView: View {
                             //name
                             Text(predator.name)
                                 .fontWeight(.bold)
+                                
                             //type
                             Text(predator.type.rawValue.capitalized)
                                 .font(.subheadline)
@@ -46,7 +47,16 @@ struct ContentView: View {
                                 .padding(.horizontal, 13)
                                 .background(Color(predator.type.background))
                                 .clipShape(.rect(cornerRadius: 15))
+                                
                         }
+                    }
+                    .swipeActions {
+                        Button(role: .destructive) {
+                            predators.deletePredator(predator)
+                        } label: {
+                            Label("Delete", systemImage: "trash")
+                        }
+
                     }
                 }
             }
@@ -80,6 +90,7 @@ struct ContentView: View {
         }
         .preferredColorScheme(.dark)
     }
+    
 }
 
 #Preview {

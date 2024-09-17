@@ -60,10 +60,12 @@ class Predators {
     
     func filterAndSort(alphabetical: Bool, type: PredatorType, searchTerm: String) -> [ApexPredator] {
         var filteredDinos = filter(by: type)
-        
         filteredDinos = sort(by: alphabetical, in: filteredDinos)
-        
         return searchPredator(with: searchTerm, in: filteredDinos)
+    }
+    
+    func deletePredator(_ predator: ApexPredator) {
+        allApexPredators = allApexPredators.filter() { $0.id != predator.id }
     }
     
 }
