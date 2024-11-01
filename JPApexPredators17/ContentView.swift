@@ -16,6 +16,8 @@ struct ContentView: View {
     
     @State var selection = PredatorType.all
     
+    private let userDefaults = UserDefaults.standard
+    
     var filteredDinos: [ApexPredator] {
         return predators.filterAndSort(alphabetical: alphabetical, type: selection, searchTerm: searchText)
     }
@@ -65,6 +67,7 @@ struct ContentView: View {
                     Button(action: {
                         withAnimation {
                             alphabetical.toggle()
+                            userDefaults.set(alphabetical, forKey: "Sorting")
                         }
                     }, label: {
                         Image(systemName: alphabetical ? "film" : "textformat")
@@ -89,6 +92,24 @@ struct ContentView: View {
             .animation(.default, value: searchText)
         }
         .preferredColorScheme(.dark)
+        .onChange(of: selection) {
+            userDefaults.set(selection.rawValue, forKey: "Type")
+        }
+        .onAppear {
+            alphabetical = retrieveSortingData("Sorting") ?? false
+            selection = retrieveTypeData("Type") ?? .all
+        }
+    }
+    
+    func retrieveSortingData(_ key: String) -> Bool? {
+        let result = userDefaults.bool(forKey: "Sorting")
+        return result
+    }
+    
+    func retrieveTypeData(_ key: String) -> PredatorType? {
+        let rawValue = userDefaults.string(forKey: "Type")
+        let result = PredatorType(rawValue: rawValue ?? "all")
+        return result
     }
     
 }
